@@ -1,0 +1,50 @@
+@font-face {
+	font-family: 'CeraPro-Regular';
+	src: local('CeraPro-Regular'),
+	url('./fonts/CeraPro-Regular.ttf') format('truetype');
+	font-weight: normal;
+}
+
+#root {
+	position: relative;
+	width: 100vw;
+	max-width: 1280px;
+	height: 100vh;
+	margin: 0 auto;
+	padding: 2rem;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: #FFFFFF;
+	font-family: 'CeraPro-Regular', sans-serif;
+	background-color: #121212;
+}
+
+button {
+	padding: 4px 28px;
+	color: #808080;
+	background-color: #222222;
+	border: 2px solid #1C1C1C;
+	border-radius: 14px;
+	cursor: pointer;
+	will-change: transform;
+	transition: all 0.4s ease-out 0.02s;
+}
+
+button::-ms-browse:hover {
+	background-color: #81ecec;
+	border: 2px solid #00cec9;
+}
+
+
+button:hover {
+	color: #FFFFFF;
+	background-color: #696969;
+	border: 2px solid #808080;
+}

@@ -1,0 +1,11 @@
+.container {
+	position: relative;
+	height: 100vh;
+}
+
+.loader__container {
+	position: absolute;
+	top: 10%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
