@@ -26,4 +26,4 @@ export const useKey = (
 	}, [key, handler]);
 
 	return handleKeyDown;
-}
+};

@@ -6,9 +6,15 @@ import styles from './info.module.css';
 type TInfo = {
 	files: TPdfFile[];
 	deleteFile: (id: string) => void;
+	deleteAllFiles: () => void;
 	calculateTotal: (pdf: TPdfFile[]) => { totalA4: number; totalPages: number };
 };
-export const Info = ({ files, deleteFile, calculateTotal }: TInfo) => {
+export const Info = ({
+	files,
+	deleteFile,
+	deleteAllFiles,
+	calculateTotal,
+}: TInfo) => {
 	const total = calculateTotal(files);
 	const { totalA4, totalPages } = total;
 	return (
@@ -53,6 +59,9 @@ export const Info = ({ files, deleteFile, calculateTotal }: TInfo) => {
 					<p>Количество А4: {totalA4}</p>
 					<p>Количество листов: {totalPages}</p>
 				</div>
+				<motion.button className={styles.btn} onClick={() => deleteAllFiles()}>
+					Очистить
+				</motion.button>
 			</motion.div>
 		</div>
 	);
