@@ -16,7 +16,7 @@ export function App() {
 	const [pdf, setPdf] = useState<TPdfFile[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isResult, setIsResult] = useState<boolean>(true);
-	const [isError, setIsError] = useState<boolean>(true);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const calculateTotal = (pdf: TPdfFile[]) => {
 		const totalA4 = pdf.reduce((total, file) => total + file.amountA4, 0);
