@@ -31,6 +31,7 @@
 }
 
 .total {
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -40,4 +41,9 @@
 	margin-right: auto;
 	margin-left: auto;
 	padding: 10px;
+}
+
+.btn {
+	position: absolute;
+	right: 0;
 }
