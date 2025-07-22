@@ -16,7 +16,10 @@ export function App() {
 	const [pdf, setPdf] = useState<TPdfFile[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isResult, setIsResult] = useState<boolean>(true);
-	const [isError, setIsError] = useState<boolean>(false);
+	const [error, setError] = useState<{
+		isError: boolean;
+		type: 'format' | 'size' | 'other' | null;
+	}>({ isError: false, type: null });
 
 	const calculateTotal = (pdf: TPdfFile[]) => {
 		const totalA4 = pdf.reduce((total, file) => total + file.amountA4, 0);
@@ -56,14 +59,23 @@ export function App() {
 	const handleFiles = async (files: File[]): Promise<void> => {
 		setIsLoading(true);
 		setIsResult(false);
-		const check = files.some((file) => file.type === 'application/pdf');
-		if (!check) {
-			setIsError(true);
+		const checkType = files.some((file) => file.type === 'application/pdf');
+		if (!checkType) {
+			setError({ isError: true, type: 'format' });
 			return;
 		}
+
+		const maxSize = 7 * 1024 * 1024; // 7mb
+		const checkSize = files.some((file) => file.size <= maxSize);
+		if (!checkSize) {
+			setError({ isError: true, type: 'size' });
+			return;
+		}
+
 		try {
 			await calculate(files);
 		} catch (err) {
+			setError({ isError: true, type: 'other' });
 			console.error('Ошибка при обработке файлов:', err);
 		} finally {
 			setTimeout(() => {
@@ -82,7 +94,7 @@ export function App() {
 	};
 
 	const handleClose = () => {
-		setIsError(false);
+		setError({ isError: false, type: null });
 		setIsLoading(false);
 		setIsResult(true);
 	};
@@ -129,9 +141,13 @@ export function App() {
 							)}
 						</motion.div>
 					)}
-					{isError && (
+					{error.isError && (
 						<Modal close={handleClose}>
-							<Notification />
+							<Notification
+								formatError={error.type === 'format'}
+								otherError={error.type === 'other'}
+								sizeError={error.type === 'size'}
+							/>
 						</Modal>
 					)}
 				</AnimatePresence>
