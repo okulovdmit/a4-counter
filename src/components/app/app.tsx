@@ -59,14 +59,14 @@ export function App() {
 	const handleFiles = async (files: File[]): Promise<void> => {
 		setIsLoading(true);
 		setIsResult(false);
-		const checkType = files.some((file) => file.type === 'application/pdf');
+		const checkType = files.every((file) => file.type === 'application/pdf');
 		if (!checkType) {
 			setError({ isError: true, type: 'format' });
 			return;
 		}
 
 		const maxSize = 7 * 1024 * 1024; // 7mb
-		const checkSize = files.some((file) => file.size <= maxSize);
+		const checkSize = files.every((file) => file.size <= maxSize);
 		if (!checkSize) {
 			setError({ isError: true, type: 'size' });
 			return;
