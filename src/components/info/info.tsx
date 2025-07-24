@@ -39,7 +39,7 @@ export const Info = ({
 									duration: 0.1,
 									ease: 'easeInOut',
 								}}>
-								<span>Delete</span>
+								<span>Удалить</span>
 							</motion.button>
 						</motion.div>
 					))}
@@ -59,7 +59,16 @@ export const Info = ({
 					<p>Количество А4: {totalA4}</p>
 					<p>Количество листов: {totalPages}</p>
 				</div>
-				<motion.button className={styles.btn} onClick={() => deleteAllFiles()}>
+				<motion.button
+					className={styles.btn}
+					onClick={() => deleteAllFiles()}
+					whileTap={{ scale: 0.9 }}
+					whileHover={{ scale: 1.1 }}
+					transition={{
+						type: 'spring',
+						duration: 0.1,
+						ease: 'easeInOut',
+					}}>
 					Очистить
 				</motion.button>
 			</motion.div>
