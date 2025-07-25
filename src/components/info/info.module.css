@@ -35,7 +35,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
-	gap: 50px;
+	gap: 10px;
 	max-width: 600px;
 	margin-top: 20px;
 	margin-right: auto;
@@ -45,5 +45,7 @@
 
 .btn {
 	position: absolute;
-	right: 0;
+	right: 10px;
+	padding-right: 17px;
+	padding-left: 17px;
 }

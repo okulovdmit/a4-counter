@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import { UploadForm } from '../upload-form/upload-form';
 import { Info } from '../info/info';
@@ -11,6 +11,7 @@ import { Loader } from '../loader/loader';
 import { motion, AnimatePresence } from 'motion/react';
 import Modal from '../modal/modal';
 import { Notification } from '../notification/notification';
+import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 export function App() {
 	const [pdf, setPdf] = useState<TPdfFile[]>([]);
@@ -20,6 +21,15 @@ export function App() {
 		isError: boolean;
 		type: 'format' | 'size' | 'other' | null;
 	}>({ isError: false, type: null });
+	const [isLight, setIsLight] = useState<boolean>(false);
+
+	useEffect(() => {
+		const savedTheme = localStorage.getItem('theme');
+		if (savedTheme && savedTheme === 'light') {
+			document.body.classList.add('light');
+			setIsLight(true);
+		}
+	}, []);
 
 	const calculateTotal = (pdf: TPdfFile[]) => {
 		const totalA4 = pdf.reduce((total, file) => total + file.amountA4, 0);
@@ -99,6 +109,18 @@ export function App() {
 		setIsResult(true);
 	};
 
+	const changeTheme = () => {
+		const body = document.body;
+		body.classList.toggle('light');
+		if (body.classList.contains('light')) {
+			localStorage.setItem('theme', 'light');
+			setIsLight(true);
+		} else {
+			localStorage.removeItem('theme');
+			setIsLight(false);
+		}
+	};
+
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<div className={styles.container}>
@@ -130,6 +152,7 @@ export function App() {
 								opacity: 0,
 								transition: { duration: 1, ease: 'easeOut' },
 							}}>
+							<ThemeSwitcher isLight={isLight} changeTheme={changeTheme} />
 							<UploadForm handleFiles={handleFiles} />
 							{pdf.length > 0 && (
 								<Info

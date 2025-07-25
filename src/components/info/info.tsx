@@ -55,7 +55,7 @@ export const Info = ({
 					ease: 'easeIn',
 				}}>
 				<p>Итого:</p>
-				<div className='quantity'>
+				<div>
 					<p>Количество А4: {totalA4}</p>
 					<p>Количество листов: {totalPages}</p>
 				</div>

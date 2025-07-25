@@ -1,3 +1,8 @@
+:root {
+	--text-color: #ffffff;
+	--background: #121212;
+}
+
 @font-face {
 	font-weight: normal;
 	font-family: 'CeraPro-Regular';
@@ -21,9 +26,14 @@
 }
 
 body {
-	color: #ffffff;
+	color: var(--text-color);
 	font-family: 'CeraPro-Regular', sans-serif;
-	background-color: #121212;
+	background-color: var(--background);
+}
+
+body.light {
+	--text-color: #121212;
+	--background: #ffffff;
 }
 
 button {
@@ -47,4 +57,11 @@ button:hover {
 	background-color: #696969;
 	border: 2px solid #808080;
 	box-shadow: 0 0 4px rgb(226 226 226);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--text-color: #121212;
+		--background: #ffffff;
+	}
 }
