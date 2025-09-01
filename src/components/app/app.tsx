@@ -3,10 +3,15 @@ import { PDFDocument } from 'pdf-lib';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { TPdfFile } from '@utils/types';
 import { v4 as uuidv4 } from 'uuid';
-import { AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Home from '../../pages/home';
-import { Uploader } from '../uploader/uploader';
+import { Counter } from '../counter/counter';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
+import Modal from '../modal/modal';
+import { Notification } from '../notification/notification';
+import { Loader } from '../loader/loader';
+import styles from './app.module.css';
+import { Check } from '../check/check';
 
 export function App() {
 	const location = useLocation();
@@ -119,45 +124,64 @@ export function App() {
 	};
 
 	return (
-		<>
+		<div className={styles.container}>
 			<AnimatePresence mode='popLayout'>
 				<ThemeSwitcher isLight={isLight} changeTheme={changeTheme} />
-				<Routes location={background || location}>
+				<Routes location={background || location} key={location.pathname}>
 					<Route path='/' element={<Home />} />
 					<Route
 						path='/format-counter'
 						element={
-							<Uploader
-								isLoading={isLoading}
+							<Counter
 								isResult={isResult}
-								error={error}
-								handleClose={handleClose}
 								handleFiles={handleFiles}
 								deleteFile={deleteFile}
 								deleteAllFiles={deleteAllFiles}
 								pdf={pdf}
 								calculateTotal={calculateTotal}
+								location={location.pathname}
 							/>
 						}
 					/>
 					<Route
 						path='/draw-check'
 						element={
-							<Uploader
-								isLoading={isLoading}
+							<Check
 								isResult={isResult}
-								error={error}
-								handleClose={handleClose}
 								handleFiles={handleFiles}
 								deleteFile={deleteFile}
 								deleteAllFiles={deleteAllFiles}
 								pdf={pdf}
 								calculateTotal={calculateTotal}
+								location={location.pathname}
 							/>
 						}
 					/>
 				</Routes>
+				{isLoading && (
+					<motion.div
+						className={styles.loader__container}
+						key='loader'
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 1, ease: 'easeOut' }}
+						exit={{
+							opacity: 0,
+							transition: { duration: 0.5, ease: 'easeOut' },
+						}}>
+						<Loader />
+					</motion.div>
+				)}
+				{error.isError && (
+					<Modal close={handleClose} key='error'>
+						<Notification
+							formatError={error.type === 'format'}
+							otherError={error.type === 'other'}
+							sizeError={error.type === 'size'}
+						/>
+					</Modal>
+				)}
 			</AnimatePresence>
-		</>
+		</div>
 	);
 }
