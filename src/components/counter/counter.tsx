@@ -3,6 +3,7 @@ import { UploadForm } from '../upload-form/upload-form';
 import { Info } from '../info/info';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useNavigate } from 'react-router-dom';
 import { Loader } from '../loader/loader';
 import { motion } from 'motion/react';
 import Modal from '../modal/modal';
@@ -35,6 +36,11 @@ export const Counter = ({
 	deleteAllFiles,
 	handleClose,
 }: TCounterProps) => {
+	const navigate = useNavigate();
+
+	const handleNavigate = () => {
+		navigate(-1);
+	};
 	return (
 		<>
 			{isResult && (
@@ -44,12 +50,13 @@ export const Counter = ({
 					animate={{ opacity: 1 }}
 					transition={{
 						duration: 1,
-						ease: 'easeIn',
+						ease: 'easeOut',
 					}}
 					exit={{
 						opacity: 0,
 						transition: { duration: 1, ease: 'easeOut' },
 					}}>
+					<button onClick={() => handleNavigate()}>Назад</button>
 					<DndProvider backend={HTML5Backend}>
 						<UploadForm handleFiles={handleFiles} />
 					</DndProvider>
