@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
-import styles from './app.module.css';
-import { UploadForm } from '../upload-form/upload-form';
-import { Info } from '../info/info';
 import { PDFDocument } from 'pdf-lib';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { TPdfFile } from '@utils/types';
 import { v4 as uuidv4 } from 'uuid';
-import { Loader } from '../loader/loader';
-import { motion, AnimatePresence } from 'motion/react';
-import Modal from '../modal/modal';
-import { Notification } from '../notification/notification';
+import { AnimatePresence } from 'motion/react';
+import Home from '../../pages/home';
+import { Counter } from '../counter/counter';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 export function App() {
+	const location = useLocation();
+	const background = location.state && location.state.background;
 	const [pdf, setPdf] = useState<TPdfFile[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isResult, setIsResult] = useState<boolean>(true);
@@ -122,59 +119,29 @@ export function App() {
 	};
 
 	return (
-		<DndProvider backend={HTML5Backend}>
-			<div className={styles.container}>
-				<AnimatePresence mode='popLayout'>
-					{isLoading && (
-						<motion.div
-							className={styles.loader__container}
-							key='loader'
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 1, ease: 'easeOut' }}
-							exit={{
-								opacity: 0,
-								transition: { duration: 0.5, ease: 'easeOut' },
-							}}>
-							<Loader />
-						</motion.div>
-					)}
-					{isResult && (
-						<motion.div
-							key='result'
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{
-								duration: 1,
-								ease: 'easeIn',
-							}}
-							exit={{
-								opacity: 0,
-								transition: { duration: 1, ease: 'easeOut' },
-							}}>
-							<ThemeSwitcher isLight={isLight} changeTheme={changeTheme} />
-							<UploadForm handleFiles={handleFiles} />
-							{pdf.length > 0 && (
-								<Info
-									files={pdf}
-									deleteFile={deleteFile}
-									deleteAllFiles={deleteAllFiles}
-									calculateTotal={calculateTotal}
-								/>
-							)}
-						</motion.div>
-					)}
-					{error.isError && (
-						<Modal close={handleClose}>
-							<Notification
-								formatError={error.type === 'format'}
-								otherError={error.type === 'other'}
-								sizeError={error.type === 'size'}
+		<>
+			<AnimatePresence mode='popLayout'>
+				<ThemeSwitcher isLight={isLight} changeTheme={changeTheme} />
+				<Routes location={background || location}>
+					<Route path='/' element={<Home />} />
+					<Route
+						path='/format-counter'
+						element={
+							<Counter
+								isLoading={isLoading}
+								isResult={isResult}
+								error={error}
+								handleClose={handleClose}
+								handleFiles={handleFiles}
+								deleteFile={deleteFile}
+								deleteAllFiles={deleteAllFiles}
+								pdf={pdf}
+								calculateTotal={calculateTotal}
 							/>
-						</Modal>
-					)}
-				</AnimatePresence>
-			</div>
-		</DndProvider>
+						}
+					/>
+				</Routes>
+			</AnimatePresence>
+		</>
 	);
 }
