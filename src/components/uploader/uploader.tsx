@@ -3,13 +3,13 @@ import { UploadForm } from '../upload-form/upload-form';
 import { Info } from '../info/info';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Loader } from '../loader/loader';
 import { motion } from 'motion/react';
 import Modal from '../modal/modal';
 import { Notification } from '../notification/notification';
 import { TPdfFile } from '@utils/types';
-import styles from './counter.module.css';
+import styles from './uploader.module.css';
 
 type TCounterProps = {
 	isLoading: boolean;
@@ -25,7 +25,7 @@ type TCounterProps = {
 	deleteAllFiles: () => void;
 	handleClose: () => void;
 };
-export const Counter = ({
+export const Uploader = ({
 	isLoading,
 	isResult,
 	error,
@@ -37,6 +37,8 @@ export const Counter = ({
 	handleClose,
 }: TCounterProps) => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const header = location.pathname === '/format-uploader' ? 'counter' : 'check';
 
 	const handleNavigate = () => {
 		navigate(-1);
@@ -58,7 +60,7 @@ export const Counter = ({
 					}}>
 					<button onClick={() => handleNavigate()}>Назад</button>
 					<DndProvider backend={HTML5Backend}>
-						<UploadForm handleFiles={handleFiles} />
+						<UploadForm handleFiles={handleFiles} header={header} />
 					</DndProvider>
 					{pdf.length > 0 && (
 						<Info

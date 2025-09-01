@@ -5,7 +5,7 @@ import { TPdfFile } from '@utils/types';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence } from 'motion/react';
 import Home from '../../pages/home';
-import { Counter } from '../counter/counter';
+import { Uploader } from '../uploader/uploader';
 import { ThemeSwitcher } from '../theme-switcher/theme-switcher';
 
 export function App() {
@@ -127,7 +127,23 @@ export function App() {
 					<Route
 						path='/format-counter'
 						element={
-							<Counter
+							<Uploader
+								isLoading={isLoading}
+								isResult={isResult}
+								error={error}
+								handleClose={handleClose}
+								handleFiles={handleFiles}
+								deleteFile={deleteFile}
+								deleteAllFiles={deleteAllFiles}
+								pdf={pdf}
+								calculateTotal={calculateTotal}
+							/>
+						}
+					/>
+					<Route
+						path='/draw-check'
+						element={
+							<Uploader
 								isLoading={isLoading}
 								isResult={isResult}
 								error={error}

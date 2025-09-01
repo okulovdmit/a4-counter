@@ -10,8 +10,9 @@ type Item = {
 
 type TUploadForm = {
 	handleFiles: (files: File[]) => Promise<void>;
+	header: string;
 };
-export const UploadForm = ({ handleFiles }: TUploadForm) => {
+export const UploadForm = ({ handleFiles, header }: TUploadForm) => {
 	const [{ isOver }, dropRef] = useDrop<Item, unknown, { isOver: boolean }>({
 		accept: NativeTypes.FILE,
 		drop(item) {
@@ -23,11 +24,14 @@ export const UploadForm = ({ handleFiles }: TUploadForm) => {
 			isOver: monitor.isOver(),
 		}),
 	});
+
+	const text =
+		header === 'counter' ? 'Подсчет форматов А4' : 'Проверка чертежей';
 	return (
 		<div
 			ref={dropRef as unknown as React.RefObject<HTMLDivElement>}
 			className={`${styles.upload} ${isOver ? styles.active : ''}`}>
-			<h1>Подсчет форматов А4</h1>
+			<h1>{text}</h1>
 			<input
 				type='file'
 				id='upload__input'
