@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './home.module.css';
 
 const Home = () => {
 	return (
-		<div>
+		<div className={styles.container}>
 			<Link to='/format-counter'>
 				<button>Подсчет форматов А4</button>
 			</Link>
