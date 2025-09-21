@@ -16,7 +16,7 @@ type TCounterProps = {
 	deleteAllFiles: () => void;
 	location: string;
 };
-export const Check = ({
+export const Sign = ({
 	isResult,
 	pdf,
 	calculateTotal,
@@ -26,7 +26,7 @@ export const Check = ({
 	location,
 }: TCounterProps) => {
 	const navigate = useNavigate();
-	const header = location === '/format-counter' ? 'counter' : 'check';
+	const header = location === '/format-counter' ? 'counter' : 'sign';
 
 	const handleNavigate = () => {
 		navigate(-1);

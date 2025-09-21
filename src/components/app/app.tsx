@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
+import { pdfjs } from 'react-pdf';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { TPdfFile } from '@utils/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +12,12 @@ import Modal from '../modal/modal';
 import { Notification } from '../notification/notification';
 import { Loader } from '../loader/loader';
 import styles from './app.module.css';
-import { Check } from '../check/check';
+import { Sign } from '../sign/sign';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+	'pdfjs-dist/build/pdf.worker.min.mjs',
+	import.meta.url
+).toString();
 
 export function App() {
 	const location = useLocation();
@@ -83,7 +89,6 @@ export function App() {
 			setError({ isError: true, type: 'size' });
 			return;
 		}
-
 		try {
 			await calculate(files);
 		} catch (err) {
@@ -144,9 +149,9 @@ export function App() {
 						}
 					/>
 					<Route
-						path='/draw-check'
+						path='/draw-sign'
 						element={
-							<Check
+							<Sign
 								isResult={isResult}
 								handleFiles={handleFiles}
 								deleteFile={deleteFile}

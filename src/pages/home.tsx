@@ -8,7 +8,7 @@ const Home = () => {
 			<Link to='/format-counter'>
 				<button>Подсчет форматов А4</button>
 			</Link>
-			<Link to='/draw-check'>
+			<Link to='/draw-sign'>
 				<button>Проверка чертежей</button>
 			</Link>
 		</div>

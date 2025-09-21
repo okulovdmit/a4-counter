@@ -26,7 +26,7 @@ export const UploadForm = ({ handleFiles, header }: TUploadForm) => {
 	});
 
 	const text =
-		header === 'counter' ? 'Подсчет форматов А4' : 'Проверка чертежей';
+		header === 'counter' ? 'Подсчет форматов А4' : 'Подписать чертежи';
 	return (
 		<div
 			ref={dropRef as unknown as React.RefObject<HTMLDivElement>}

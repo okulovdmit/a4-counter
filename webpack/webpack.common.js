@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path'); //для того чтобы превратить отнсительный путь в абсолютный мы будем использовать пакет path
 const webpack = require('webpack');
-const CopyPlugin= require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -82,7 +82,7 @@ module.exports = {
 			'@components': path.resolve(__dirname, './src/components'),
 			'@services': path.resolve(__dirname, './src/services'),
 			'@utils': path.resolve(__dirname, '..', './src/utils'),
-		}
+		},
 	},
 	plugins: [
 		new HTMLWebpackPlugins({
